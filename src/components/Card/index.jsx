@@ -106,7 +106,7 @@ export default function Card({name}){
                     {pokedata.types.map((type, value) => {
                         return(
                             <div key={value} className={`flex flex-row justify-start items-center gap-x-2 ${colors[type.type.name]} rounded-md p-2 shadow-sm`}>
-                                <img className="h-6 w-6" src={`./types/${type.type.name}.svg`}/>
+                                <img className="h-6 w-6" src={`/types/${type.type.name}.svg`}/>
                                 <p className="text-white font-bold capitalize">{type.type.name}</p>
                             </div>
                         )
