@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Header from "../../components/Header";
 import api from "../../services/api";
-import EvolutionChain from "../../components/EvolutionChain";
+import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
 export default function Pokemon() {
   const { id } = useParams();
   const [url, setUrl] = useState("");
+  const [loading, setLoading] = useState(true)
   const [pokedata, setPokeData] = useState({
     habilidades: [],
     altura: "",
@@ -35,6 +36,7 @@ export default function Pokemon() {
         peso: response.data.weight,
         texto: secResponse.data.flavor_text_entries[0].flavor_text,
       });
+      setLoading(false)
     } catch (error) {
       console.log(error);
     }
@@ -81,11 +83,21 @@ export default function Pokemon() {
           <div className="shadow-2xl bg-gray-700 w-11/12 h-fit p-6 mb-10 rounded-2xl">
             <div className="flex flex-col lg:flex-row gap-y-6">
               <div className="flex flex-col justify-center items-center">
+                {loading ?
+                 <div className="flex w-full h-40 overflow-hidden gap-2 items-center justify-center m-auto">
+                 <AiOutlineLoading3Quarters
+                     size={25}
+                     className="animate-spin text-white"
+                 />
+                 <p className="text-white"> Carregando...</p>
+                 </div>
+                :
                 <img
                   className="h-64 w-64"
                   src={pokedata.sprites}
                   alt={pokedata.nome}
                 ></img>
+                }
                 <div className="flex flex-row items-center justify-start lg:justify-center w-full gap-x-2">
                   {pokedata.tipos.map((type, value) => {
                     color = type.type.name;
