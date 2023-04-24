@@ -3,7 +3,7 @@ import { HiChevronLeft, HiChevronRight } from "react-icons/hi"
 
 var MAX_ITEMS = 9; //o máximo de botões na páginação, usar sempre número impar
 var width = window.matchMedia("(max-width: 640px)")
-console.log(width.matches)
+
 if (width.matches) {
     MAX_ITEMS = 3
 }

@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Header from "../../components/Header";
 import api from "../../services/api";
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
+import EvolutionChain from "../../components/EvolutionChain"
 
 export default function Pokemon() {
   const { id } = useParams();
@@ -17,7 +18,6 @@ export default function Pokemon() {
     tipos: [],
     peso: "",
     texto: "",
-    evolucao: [],
   });
   var color = "";
 
@@ -44,7 +44,7 @@ export default function Pokemon() {
 
   useEffect(() => {
     getPokemon();
-  }, [url]);
+  }, [url, id]);
 
   const colors = {
     bug: "bg-bug",
@@ -80,7 +80,7 @@ export default function Pokemon() {
           </Link>
         </div>
         <div className="flex items-center justify-center mt-6">
-          <div className="shadow-2xl bg-gray-700 w-11/12 h-fit p-6 mb-10 rounded-2xl">
+          <div className="shadow-2xl bg-gray-700 w-11/12 h-fit p-10 mb-10 rounded-2xl">
             <div className="flex flex-col lg:flex-row gap-y-6">
               <div className="flex flex-col justify-center items-center">
                 {loading ?
@@ -96,11 +96,11 @@ export default function Pokemon() {
                   className="h-64 w-64"
                   src={pokedata.sprites}
                   alt={pokedata.nome}
-                ></img>
+                />
                 }
                 <div className="flex flex-row items-center justify-start lg:justify-center w-full gap-x-2">
                   {pokedata.tipos.map((type, value) => {
-                    color = type.type.name;
+                    color = pokedata.tipos[0].type.name;
                     return (
                       <div
                         key={value}
@@ -120,8 +120,8 @@ export default function Pokemon() {
                   })}
                 </div>
               </div>
-              <div className="flex flex-col max-w-sm mr-10">
-                <h1 className="text-white capitalize text-6xl font-bold">
+              <div className="flex flex-col max-w-sm md:mx-10">
+                <h1 className="text-white capitalize text-5xl md:text-6xl font-bold">
                   {pokedata.nome}
                 </h1>
                 <p className="text-justify text-lg text-white font-medium">
@@ -136,11 +136,11 @@ export default function Pokemon() {
                     Peso: <span className="font-normal">{pokedata.peso}</span>
                   </p>
                   </div>
-                  <h2 className="text-white mt-6 text-lg font-medium">Habilidades</h2>
+                  <h2 className="text-white mt-6 text-lg font-medium">Habilidades:</h2>
                 <div className="flex flex-row gap-x-4">
                   {pokedata.habilidades.map((item, index) => {
                     return (
-                      <p key={index} className="text-white capitalize ">
+                      <p key={index} className="text-white capitalize text-md">
                         {item.ability.name}
                       </p>
                     );
@@ -152,12 +152,12 @@ export default function Pokemon() {
                   {pokedata.stats.map((item, index) => {
                     return (
                       <div key={index}>
-                        <p className="capitalize text-white">
+                        <p className="capitalize text-white font-medium">
                           {item.stat.name}
                         </p>
                         <div className="w-full relative h-5 bg-gray-300 rounded-lg">
                           <div
-                            className={`${colors[color]} absolute top-0 left-0 h-full rounded-lg `}
+                            className={`${colors[color]} absolute top-0 left-0 h-full rounded-lg max-w-full`}
                             style={{ width: `${item.base_stat}%` }}
                           ></div>
                         </div>
@@ -167,12 +167,12 @@ export default function Pokemon() {
                 </div>
               </div>
             </div>
-            {/* <div>
-                <h1>Evoluções</h1>
+            <div>
+                <h1 className="text-white w-full text-center mt-10 font-bold text-3xl">Evoluções</h1>
                 {url &&(
                     <EvolutionChain url={url}/>
                 )}
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
