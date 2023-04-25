@@ -7,6 +7,8 @@ import Pagination from '../../components/Pagination'
 
 export default function Pokedex() {
   const [pokemons, setPokemons] = useState([])
+  const [searchpokemon, setSearchPokemon] = useState([])
+  const [error, setError] = useState("")
   const [totalPokemon] = useState(6)
   const [search, setSearch] = useState("")
   const [offset, setOffset] = useState(0)
@@ -15,10 +17,10 @@ export default function Pokedex() {
   useEffect(() => {
     async function getPokemon() {
           try {
-              const total = await api.get("/pokemon")
+              const { data: {count} } = await api.get("/pokemon")
               const response  = await api.get(`/pokemon?limit=${totalPokemon}&offset=${offset}`)
               setPokemons(response.data.results)
-              setTotal(total.data.count)
+              setTotal(count)
             } catch (error) {
               console.log(error)
           }
@@ -27,42 +29,71 @@ export default function Pokedex() {
     getPokemon()
   }, [offset])
 
-  const lowerSearch = search.toLowerCase()
- 
-  const pokemonsFiltrados = pokemons.filter((item) => item.name.toLowerCase().startsWith(lowerSearch))
+  async function getSearchPokemon(search, e){
+    if (e.key !== 'Enter') return
+    setSearchPokemon([])
+    setError("")
 
+    search = search.toLowerCase()
+    try {
+      const { data } = await api.get(`/pokemon/${search}`)
+      setSearchPokemon([data])
+    } catch (error) {
+      setError("Não foi possível encontrar o pokémon, tente outro nome!")
+    }
+  }
+
+  function handleReset(){
+    setSearchPokemon([])
+    setError("")
+  }
+  
+  
+  
   function scrollTop() {
     window.scroll({
-        top: 0,
-        behavior: "smooth",
+      top: 0,
+      behavior: "smooth",
     })
   }
+
   return (
     <>
-        <div className='hidden w-full  items-center justify-end px-6 mt-6 md:mt-0 md:relative md:-top-10 md:px-10'>
-            <input className='flex p-2  w-full lg:w-[70%] rounded-md shadow-md focus:outline-none'
-            type='text'
-            placeholder='Pesquisar Pokemon'
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            />
-            <BiSearchAlt size={25} className='absolute right-12 text-gray-400'/>
+        <div className='w-full flex flex-col md:flex-row items-center justify-center px-6 mt-6 '>
+            <div className='relative w-full md:w-1/2'>
+              <input className='flex p-2 w-full rounded-md shadow-md focus:outline-none'
+              type='text'
+              placeholder='Pesquisar Pokemon'
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => getSearchPokemon(search, e)}
+              />
+              <BiSearchAlt size={25} className='absolute top-2 right-3 text-gray-400'/>
+            </div>
+            <button className='px-10 mt-4 md:ml-4 md:mt-0 bg-gray-900 text-white rounded-md p-2'
+            onClick={() => handleReset()}
+            >
+              <span className='font-semibold'>Limpar</span>
+            </button>
         </div>
         <div className='py-10 md:px-10 flex flex-col justify-center items-center gap-10 md:grid md:grid-cols-2 lg:grid lg:grid-cols-3'>
           {/* aqui caso a variavel search esteja vazia serão exibidos todos os pokemons, caso contrario 
           sera exibido de acordo com o filtro */}
-          {search === "" ? pokemons.map((item) => {
+          {error && (
+              <h1 className='text-white font-bold text-center text-2xl'>{error}</h1>
+          )}
+          {searchpokemon.length <= 0 && !error ? pokemons.map((item) => {
             return(
                 <Card key={item.name} name={item.name}/>
             )
-          }): pokemonsFiltrados.map((item) => {
+          }): searchpokemon.map((item) => {
             return(
-                <Card key={item.name} name={item.name}/>
+                <Card className="grid order-2" key={item.name} name={item.name}/>
             )
           })}
         </div>
         <div className='w-full flex items-center justify-center'>
-          {total > 0 && (
+          {total > 0 && searchpokemon.length == 0 && !error && (
             <Pagination 
             limit={totalPokemon} 
             total={total} 

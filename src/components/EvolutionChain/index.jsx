@@ -52,8 +52,6 @@ export default function EvolutionChain({ url }) {
         getEvolutionData()
     }, [loading])
 
-    console.log(pokemons)
-
     return(
         <div className="flex flex-col lg:flex-row w-full justify-around">
           {!loading && (

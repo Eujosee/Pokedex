@@ -14,10 +14,8 @@ const MAX_LEFT = (MAX_ITEMS - 1) / 2; //o máximo de botões na esquerda, o meno
 const Pagination = ({ limit, total, offset, setOffset }) => {
   const current = offset ? offset / limit + 1 : 1; //página atual
   const pages = Math.ceil(total / limit); //quantidade total de paginas. A divisão não pode ser quebrada, por isso o math.ceil
-  console.log(pages)
   const first = Math.max(current - MAX_LEFT, 1); //primeira página. Aqui o math.max serve para não haver botões com numeros negativos
 
-  console.log(pages)
   function onPageChange(page) {
     setOffset((page - 1) * limit);
   }
