@@ -48,7 +48,7 @@ export default function Pokedex() {
             />
             <BiSearchAlt size={25} className='absolute right-12 text-gray-400'/>
         </div>
-        <div className='py-10 md:px-10 flex flex-col justify-center items-center gap-10 md:grid md:grid-cols-2 lg:grid lg:grid-cols-3  lg:justify-items-stretch'>
+        <div className='py-10 md:px-10 flex flex-col justify-center items-center gap-10 md:grid md:grid-cols-2 lg:grid lg:grid-cols-3'>
           {/* aqui caso a variavel search esteja vazia serão exibidos todos os pokemons, caso contrario 
           sera exibido de acordo com o filtro */}
           {search === "" ? pokemons.map((item) => {
@@ -72,7 +72,7 @@ export default function Pokedex() {
           )}
         </div>
  
-      <button onClick={scrollTop} className='hidden md:flex fixed items-center justify-center bottom-14 right-8  rounded-full h-14 w-14 shadow-2xl bg-gray-900 text-white'>
+      <button onClick={scrollTop} className='flex fixed items-center justify-center bottom-14 right-8  rounded-full h-14 w-14 shadow-2xl bg-gray-900 text-white'>
         <FaArrowUp size={30} />
       </button>
     </>

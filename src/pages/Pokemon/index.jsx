@@ -44,6 +44,10 @@ export default function Pokemon() {
 
   useEffect(() => {
     getPokemon();
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+  })
   }, [url, id]);
 
   const colors = {

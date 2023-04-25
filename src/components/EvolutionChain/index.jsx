@@ -52,11 +52,18 @@ export default function EvolutionChain({ url }) {
         getEvolutionData()
     }, [loading])
 
+    console.log(pokemons)
+
     return(
         <div className="flex flex-col lg:flex-row w-full justify-around">
+          {!loading && (
+            <>
+            {pokemons.length <= 0 && names.length <= 0 &&  (
+              <p className="text-white w-full text-center mt-10 font-bold text-3xl">Este pokemon não evolui!</p>
+            )}
             {pokemons.map((item) =>{
               return(
-                <Link className={`p-8 px-10`} key={item.id} to={`/pokemon/${item.id}`}>
+                <Link className="p-8 px-10 transition ease-in-out  delay-150 hover:-translate-y-1 hover:scale-110 duration-300" key={item.id} to={`/pokemon/${item.id}`}>
                 <div className="flex flex-col items-center justify-center">
                   <img className="w-48" src={item.sprites.other['official-artwork'].front_default} alt={item.name}/>
                   <div className="flex flex-row items-center justify-center w-full gap-x-4">
@@ -67,6 +74,11 @@ export default function EvolutionChain({ url }) {
                 </Link>
               )
             })}
+            </>
+          )}
+          {loading && (
+            <h1 className="text-white w-full text-center mt-10 font-bold text-3xl">Carregando ...</h1>
+          )}
         </div>
     )
 }

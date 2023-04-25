@@ -48,10 +48,10 @@ export default function Card({name}){
 
     return(
         // essa primeira div serve como background para ser feito o shadow,
-        <div className="wraper"> 
+        <div className="wraper flex  justify-center min-h-full h-full items-stretch"> 
         {/* aqui já é a div do card mesmo */}
         {loading ? 
-        <div className="corte sombra px-8 pb-6 flex flex-col items-center bg-[#DEDEDE] w-[90vw] h-[336px] lg:h-[340px] md:w-80 lg:w-96 rounded-2xl gap-y-2 
+        <div className="corte sombra px-8 pb-6 flex flex-col items-center bg-[#DEDEDE] w-[90vw] md:w-80 lg:w-96 lg:h-[340px] rounded-2xl gap-y-2 
         transition ease-in-out hover:-translate-y-1 hover:scale-105 duration-300 hover:cursor-pointer
         ">
             <div className="flex flex-row gap-x-4 p-4">
@@ -76,7 +76,7 @@ export default function Card({name}){
         </div>
          
         : 
-        <Link to={"/pokemon/" + pokedata.id}>
+        <Link to={"/pokemon/" + pokedata.id} className="">
             <div className="corte sombra px-8 pb-6 flex flex-col items-center bg-[#DEDEDE] w-[90vw] min-h-full h-fit md:w-80 lg:w-96 rounded-2xl gap-y-2 
             transition ease-in-out hover:-translate-y-1 hover:scale-105 duration-300 hover:cursor-pointer
             ">
