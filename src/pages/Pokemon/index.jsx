@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Header from "../../components/Header";
 import api from "../../services/api";
-import { AiOutlineLoading3Quarters } from "react-icons/ai"
+import { AiOutlineLoading3Quarters, AiOutlineHeart } from "react-icons/ai"
 import EvolutionChain from "../../components/EvolutionChain"
+import { FaArrowUp } from "react-icons/fa"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Pokemon() {
   const { id } = useParams();
@@ -71,6 +74,45 @@ export default function Pokemon() {
     water: "bg-water",
   };
 
+  function scrollTop() {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    })
+  }
+
+  function setFavorito() {
+    if (localStorage.getItem(pokedata.nome) !== null ){
+      try {
+        localStorage.removeItem(pokedata.nome)
+        toast.success('Pokémon removido dos seus favoritos!', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000,
+        });
+      } catch (error) {
+        toast.error('Não foi possível remover o pokémon, tente novamente!', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000,
+        });
+      }
+      return
+    }
+    try {
+      localStorage.setItem(pokedata.nome, id)
+      toast.success('Pokémon adicionado aos favoritos!', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+      })
+    } catch (error) {
+      toast.error('Erro ao adicionar o pokémon, tente novamente!', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+      });
+    }
+  }
+
+
+
   return (
     <>
       <div className="flex flex-col min-h-screen max-w-screen bg-[#CE092A]">
@@ -84,6 +126,7 @@ export default function Pokemon() {
           </Link>
         </div>
         <div className="flex items-center justify-center mt-6">
+        <ToastContainer/>
           <div className="shadow-2xl bg-gray-700 w-11/12 h-fit p-10 mb-10 rounded-2xl">
             <div className="flex flex-col lg:flex-row gap-y-6">
               <div className="flex flex-col justify-center items-center">
@@ -125,9 +168,14 @@ export default function Pokemon() {
                 </div>
               </div>
               <div className="flex flex-col max-w-sm md:mx-10">
-                <h1 className="text-white capitalize text-5xl md:text-6xl font-bold">
-                  {pokedata.nome}
-                </h1>
+                <div className="flex gap-5 items-center ">
+                  <h1 className="text-white capitalize text-5xl md:text-6xl font-bold">
+                    {pokedata.nome}
+                  </h1>
+                  <button onClick={() => setFavorito()} className="flex group items-center justify-center bg-red-600 hover:bg-white p-3 rounded-full">
+                    <AiOutlineHeart className="text-white group-hover:text-red-600" size={30}/>
+                  </button>
+                </div>
                 <p className="text-justify text-lg text-white font-medium">
                   {pokedata.texto}
                 </p>
@@ -179,6 +227,9 @@ export default function Pokemon() {
             </div>
           </div>
         </div>
+        <button onClick={scrollTop} className='flex fixed items-center justify-center bottom-14 right-8  rounded-full h-14 w-14 shadow-2xl bg-gray-900 text-white'>
+          <FaArrowUp size={30} />
+        </button>
       </div>
     </>
   );

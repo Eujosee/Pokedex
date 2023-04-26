@@ -7,48 +7,38 @@ import Pagination from '../../components/Pagination'
 
 export default function Pokedex() {
   const [pokemons, setPokemons] = useState([])
-  const [searchpokemon, setSearchPokemon] = useState([])
   const [error, setError] = useState("")
+  const [pokemonsFiltrados, setPokemonsFiltrados] = useState([])
   const [totalPokemon] = useState(6)
   const [search, setSearch] = useState("")
   const [offset, setOffset] = useState(0)
   const [total, setTotal ] = useState(0)
-  
+
   useEffect(() => {
     async function getPokemon() {
           try {
               const { data: {count} } = await api.get("/pokemon")
-              const response  = await api.get(`/pokemon?limit=${totalPokemon}&offset=${offset}`)
+              const response  = await api.get(`/pokemon?limit=10000&offset=0`)
               setPokemons(response.data.results)
               setTotal(count)
             } catch (error) {
               console.log(error)
           }
-    
       }
     getPokemon()
-  }, [offset])
+  }, [])
 
-  async function getSearchPokemon(search, e){
-    if (e.key !== 'Enter') return
-    setSearchPokemon([])
-    setError("")
+  useEffect(() => {
+    getFiltro()
+  },[search])
 
-    search = search.toLowerCase()
-    try {
-      const { data } = await api.get(`/pokemon/${search}`)
-      setSearchPokemon([data])
-    } catch (error) {
-      setError("Não foi possível encontrar o pokémon, tente outro nome!")
-    }
+  function getFiltro(e) {
+    const lowerSearch = search.toLowerCase()
+    setPokemonsFiltrados(pokemons.filter((item) => item.name.toLowerCase().startsWith(lowerSearch)))
+    setTotal(pokemonsFiltrados)
   }
 
-  function handleReset(){
-    setSearchPokemon([])
-    setError("")
-  }
-  
-  
+  console.log(search)
   
   function scrollTop() {
     window.scroll({
@@ -66,7 +56,6 @@ export default function Pokedex() {
               placeholder='Pesquisar Pokemon'
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              onKeyDown={(e) => getSearchPokemon(search, e)}
               />
               <BiSearchAlt size={25} className='absolute top-2 right-3 text-gray-400'/>
             </div>
@@ -76,24 +65,28 @@ export default function Pokedex() {
               <span className='font-semibold'>Limpar</span>
             </button>
         </div>
-        <div className='py-10 md:px-10 flex flex-col justify-center items-center gap-10 md:grid md:grid-cols-2 lg:grid lg:grid-cols-3'>
+        <div className='py-10 md:px-10 flex flex-col justify-center items-center gap-10 md:grid md:grid-cols-2 min-[1250px]:grid min-[1250px]:grid-cols-3'>
           {/* aqui caso a variavel search esteja vazia serão exibidos todos os pokemons, caso contrario 
           sera exibido de acordo com o filtro */}
           {error && (
               <h1 className='text-white font-bold text-center text-2xl'>{error}</h1>
           )}
-          {searchpokemon.length <= 0 && !error ? pokemons.map((item) => {
-            return(
+          {pokemonsFiltrados.length <= 0 && !error ? pokemons.map((item, index) => {
+            if (index >= offset && index < offset + 6) {
+              return(
                 <Card key={item.name} name={item.name}/>
-            )
-          }): searchpokemon.map((item) => {
-            return(
-                <Card className="grid order-2" key={item.name} name={item.name}/>
-            )
+              )
+            }
+          }) : pokemonsFiltrados.map((item, index) => {
+            if (index >= offset && index < offset + 6) {
+              return(
+                <Card key={item.name} name={item.name}/>
+              )
+            }
           })}
         </div>
         <div className='w-full flex items-center justify-center'>
-          {total > 0 && searchpokemon.length == 0 && !error && (
+          {total > 0 && !error && (
             <Pagination 
             limit={totalPokemon} 
             total={total} 
@@ -103,7 +96,7 @@ export default function Pokedex() {
           )}
         </div>
  
-      <button onClick={scrollTop} className='flex fixed items-center justify-center bottom-14 right-8  rounded-full h-14 w-14 shadow-2xl bg-gray-900 text-white'>
+      <button onClick={scrollTop} className='flex fixed items-center justify-center bottom-28 md:bottom-14 right-8  rounded-full h-14 w-14 shadow-2xl bg-gray-900 text-white'>
         <FaArrowUp size={30} />
       </button>
     </>

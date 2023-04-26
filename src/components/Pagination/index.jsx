@@ -21,7 +21,7 @@ const Pagination = ({ limit, total, offset, setOffset }) => {
   }
 
   return (
-    <ul className="flex flex-row justify-center items-center md:gap-x-2 mb-10 w-full lg:w-fit bg-gray-900 text-white rounded-3xl px-4 shadow-2xl font-bold">
+    <ul className="flex flex-row justify-center items-center md:gap-x-2 mb-10 w-fit max-w-full lg:w-fit bg-gray-900 text-white rounded-3xl px-4 shadow-2xl font-bold">
         <button
           onClick={() => onPageChange(1)}
           disabled={current === 1}

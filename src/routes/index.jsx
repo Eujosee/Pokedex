@@ -4,6 +4,8 @@ import {
 } from "react-router-dom";
 import Home from "../pages/Home";
 import Pokemon from "../pages/Pokemon";
+import Favoritos from "../pages/Favoritos"
+import NotFound from "../pages/NotFound";
 
 const router = createBrowserRouter([
     {
@@ -13,6 +15,14 @@ const router = createBrowserRouter([
     {
         path: "/pokemon/:id",
         element: <Pokemon/>
+    },
+    {
+        path: "/favoritos",
+        element: <Favoritos/>
+    },
+    {
+        path: "*",
+        element: <NotFound/>
     }
 ])
 
