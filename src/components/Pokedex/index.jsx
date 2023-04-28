@@ -33,6 +33,7 @@ export default function Pokedex() {
   useEffect(() => {
     const lowerSearch = search.toString().toLowerCase();
     setPokemonsFiltrados(pokemons.filter((item) => item.name.toLowerCase().startsWith(lowerSearch)));
+    setOffset(0)
   }, [search, pokemons]);
 
   useEffect(() => {
@@ -72,13 +73,18 @@ export default function Pokedex() {
                  <Card key={item.name} name={item.name}/>
               )
             }
-          }) : pokemonsFiltrados.map((item, index) => {
+          }) : pokemonsFiltrados.length > 0 ? pokemonsFiltrados.map((item, index) => {
             if (index >= offset && index < offset + 6) {
               return(
                 <Card key={item.name} name={item.name}/>
               )
             }
-          })}
+          }) : 
+          <div className='col-span-3'>
+            <h1 className='text-white font-bold text-3xl text-center'>Não foi possível achar esse pokémon, tente outro nome!</h1>
+          </div>
+          
+          }
         </div>
         <div className='w-full flex items-center justify-center'>
           {total > 6 && (

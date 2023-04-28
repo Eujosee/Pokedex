@@ -25,9 +25,6 @@ export default function Header() {
                         </div>
                     </div>
                 </div>
-            <div className="flex w-full justify-end z-40">
-                <h1 >oi</h1>
-            </div>
         </header>
         </div>
     )
