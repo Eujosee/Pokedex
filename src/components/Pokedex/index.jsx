@@ -15,6 +15,7 @@ export default function Pokedex() {
   const [total, setTotal ] = useState(0)
 
   useEffect(() => {
+    if (pokemons.length > 0) return
     async function getPokemon() {
           try {
               const { data: {count} } = await api.get("/pokemon")
@@ -25,7 +26,6 @@ export default function Pokedex() {
               console.log(error)
           }
       }
-    if (pokemons.length > 0) return
     getPokemon()
   }, [])
 

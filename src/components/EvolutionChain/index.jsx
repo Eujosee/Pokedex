@@ -46,7 +46,11 @@ export default function EvolutionChain({ url }) {
           }
         })
         const results = await Promise.all(promises);
-        const sortedResults = results.sort((a, b) => a.id - b.id)
+        const sortedResults = results.sort((a, b) => {
+          const indexA = names.indexOf(a.name);
+          const indexB = names.indexOf(b.name);
+          return indexA - indexB;
+        });
         setPokemons(sortedResults);
     }
 

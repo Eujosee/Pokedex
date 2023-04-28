@@ -92,8 +92,12 @@ export default function Card({name}){
                 </div>
                 <div className="flex items-center justify-center bg-gray-700 w-full rounded-md shadow-2xl">
                     {pokedata.sprites ? 
-                
-                    <img className="cover max-h-40 max-w-40 floating" src={pokedata.sprites} alt={name}/>
+                    <div className="h-40 w-40">
+                        <img className="cover floating" loading="lazy" src={pokedata.sprites} alt={name}/>
+                        <noscript>
+                        <img className="cover floating" src={pokedata.sprites} alt={name}/>
+                        </noscript>
+                    </div>
                     : <div className="flex h-40 w-40 justify-center items-center ">
                         <h1  className="text-center text-white font-semibold">Este pokemon não possui imagem! &#58;&#40;</h1>
                     </div>
