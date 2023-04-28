@@ -75,7 +75,7 @@ export default function EvolutionChain({ url }) {
               return(
                 <Link className="p-8 px-10 transition ease-in-out  delay-150 hover:-translate-y-1 hover:scale-110 duration-300" key={item.id} to={`/pokemon/${item.id}`}>
                 <div className="flex flex-col items-center justify-center">
-                  <img className="w-48" src={item.sprites.other['official-artwork'].front_default} alt={item.name}/>
+                  <img className="w-48 h-48" src={item.sprites.other['official-artwork'].front_default} alt={item.name}/>
                   <div className="flex flex-row items-center justify-center w-full gap-x-4">
                     <p className="text-white font-bold text-xl">#{item.id}</p>
                     <h1 className="capitalize text-white font-bold text-3xl">{item.name}</h1>
