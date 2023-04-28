@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi"
 
 var MAX_ITEMS = 9; //o máximo de botões na páginação, usar sempre número impar
@@ -20,19 +20,25 @@ const Pagination = ({ limit, total, offset, setOffset }) => {
     setOffset((page - 1) * limit);
   }
 
+  useEffect(() => {
+  }, [total])
+
   return (
     <ul className="flex flex-row justify-center items-center md:gap-x-2 mb-10 w-fit max-w-full lg:w-fit bg-gray-900 text-white rounded-3xl px-4 shadow-2xl font-bold">
-        <button
-          onClick={() => onPageChange(1)}
-          disabled={current === 1}
-          className="p-2 rounded hover:bg-gray-800"
-        >
-          Primeira
-        </button>
+        <li>
+          <button
+            onClick={() => onPageChange(1)}
+            disabled={current === 1}
+            className="p-2 rounded hover:bg-gray-800"
+          >
+            Primeira
+          </button>
+        </li>
       <li className="flex items-center justify-center">
         <button
           onClick={() => onPageChange(current - 1)}
           disabled={current === 1}
+          aria-label="Voltar"
           className=" bg-gray-900 hover:bg-gray-800 rounded-full shadow-xl"
         >
           <HiChevronLeft size={40}/>
@@ -60,11 +66,13 @@ const Pagination = ({ limit, total, offset, setOffset }) => {
         <button
           onClick={() => onPageChange(current + 1)}
           disabled={current === pages}
+          aria-label="Avançar"
           className=" bg-gray-900 hover:bg-gray-800 rounded-full shadow-xl"
         >
           <HiChevronRight size={40}/>
         </button>
       </li>
+      <li>
         <button
           onClick={() => onPageChange(pages)}
           disabled={current === pages}
@@ -72,6 +80,7 @@ const Pagination = ({ limit, total, offset, setOffset }) => {
         >
              Última
         </button>
+      </li>
     </ul>
   );
 };

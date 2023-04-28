@@ -92,7 +92,8 @@ export default function Card({name}){
                 </div>
                 <div className="flex items-center justify-center bg-gray-700 w-full rounded-md shadow-2xl">
                     {pokedata.sprites ? 
-                    <img className="cover h-40 w-40 floating" src={pokedata.sprites} alt={name}/>
+                
+                    <img className="cover max-h-40 max-w-40 floating" src={pokedata.sprites} alt={name}/>
                     : <div className="flex h-40 w-40 justify-center items-center ">
                         <h1  className="text-center text-white font-semibold">Este pokemon não possui imagem! &#58;&#40;</h1>
                     </div>
@@ -106,7 +107,7 @@ export default function Card({name}){
                     {pokedata.types.map((type, value) => {
                         return(
                             <div key={value} className={`flex flex-row justify-start items-center gap-x-2 ${colors[type.type.name]} rounded-md p-2 shadow-sm`}>
-                                <img className="h-6 w-6" src={`/types/${type.type.name}.svg`}/>
+                                <img className="h-6 w-6" src={`/types/${type.type.name}.svg`} alt={`${type.type.name} icon`}/>
                                 <p className="text-white font-bold capitalize">{type.type.name}</p>
                             </div>
                         )

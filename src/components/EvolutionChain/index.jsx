@@ -21,14 +21,15 @@ export default function EvolutionChain({ url }) {
           }
           
           let nomes = []
+          if (first !== "" && !names.some((item) => item.name === first)) nomes.push({ name: first, index: 1 })
+          if (middle !== "" && !names.some((item) => item.name === middle)) nomes.push({ name: middle, index: 2 })
+          if (last !== "" && !names.some((item) => item.name === last)) nomes.push({ name: last, index: 3 })
 
-          if (first !== "" && !names.includes(first)) nomes.push(first)
-          if (middle !== "" && !names.includes(middle)) nomes.push(middle)
-          if (last !== "" && !names.includes(last)) nomes.push(last)
-
+          nomes.sort((a, b) => a.index - b.index)
           setNames(nomes)
           setLoading(false)
         } catch (error) {
+          setLoading(false)
           console.log(error);
         }
     }
@@ -36,22 +37,29 @@ export default function EvolutionChain({ url }) {
     async function getEvolutionData() {
       if (loading) return;
       if (pokemons.length > 0) return
-        names.map(async (item) => {
+        const promises = names.map(async (item) => {
           try {
-            const response = await api.get(`/pokemon/${item}`)
-            setPokemons(pokemons => [...pokemons, response.data])  
+            const response = await api.get(`/pokemon/${item.name}`)
+            return response.data 
           } catch (error) {
             console.log(error)
           }
         })
+        const results = await Promise.all(promises);
+        const sortedResults = results.sort((a, b) => a.id - b.id)
+        setPokemons(sortedResults);
     }
+
 
 
     useEffect(() => {
         getEvolutionsName()
+      }, [])
+    
+      useEffect(() => {
         getEvolutionData()
-    }, [loading])
-
+      },[loading])
+      
     return(
         <div className="flex flex-col lg:flex-row w-full justify-around">
           {!loading && (

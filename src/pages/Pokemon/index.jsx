@@ -120,7 +120,7 @@ export default function Pokemon() {
         <div className="flex mt-4 ml-4 justify-start items-center">
           <Link
             to="/"
-            className="text-white font-semibold bg-gray-900 p-3 px-6 rounded-md"
+            className="text-white font-semibold bg-gray-900 p-2 px-10 rounded-md"
           >
             Voltar
           </Link>
@@ -158,6 +158,7 @@ export default function Pokemon() {
                         <img
                           className="h-6 w-6"
                           src={`/types/${type.type.name}.svg`}
+                          alt={`${type.type.name} icon`}
                         />
                         <p className="text-white font-bold capitalize">
                           {type.type.name}
@@ -167,12 +168,14 @@ export default function Pokemon() {
                   })}
                 </div>
               </div>
-              <div className="flex flex-col max-w-sm md:mx-10">
+              <div className="flex flex-col max-w-sm lg:mx-10">
                 <div className="flex gap-5 items-center ">
                   <h1 className="text-white capitalize text-5xl md:text-6xl font-bold">
                     {pokedata.nome}
                   </h1>
-                  <button onClick={() => setFavorito()} className="flex group items-center justify-center bg-red-600 hover:bg-white p-3 rounded-full">
+                  <button onClick={() => setFavorito()} 
+                  aria-label="Adicionar aos favoritos"
+                  className="flex group items-center justify-center bg-red-600 hover:bg-white p-3 rounded-full">
                     <AiOutlineHeart className="text-white group-hover:text-red-600" size={30}/>
                   </button>
                 </div>
@@ -227,7 +230,9 @@ export default function Pokemon() {
             </div>
           </div>
         </div>
-        <button onClick={scrollTop} className='flex fixed items-center justify-center bottom-14 right-8  rounded-full h-14 w-14 shadow-2xl bg-gray-900 text-white'>
+        <button onClick={scrollTop}
+        aria-label="De volta ao topo"
+        className='flex fixed items-center justify-center bottom-14 right-8  rounded-full h-14 w-14 shadow-2xl bg-gray-900 text-white'>
           <FaArrowUp size={30} />
         </button>
       </div>
