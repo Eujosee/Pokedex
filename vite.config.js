@@ -17,10 +17,10 @@ export default defineConfig({
           ['imagemin-svgo', { plugins: [{ removeViewBox: false }] }]
         ]
       },
-      webp: false,
+      webp: true,
       maxFileSize: 1024 * 10, // 10 KB
       publicPath: '/assets/images/',
-      removeOriginal: false,
+      removeOriginal: true,
       header: {
         'Cache-Control': 'public, max-age=31536000, immutable'
       }
