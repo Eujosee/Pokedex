@@ -1,6 +1,6 @@
 # PokeReact <img src="https://img.icons8.com/color/30/000000/pokeball.png"/>
 
-PokeReact é um projeto em React que utiliza a biblioteca TailwindCSS para estilização e consome dados da PokeAPI para exibir informações sobre Pokémons.
+Pokédex é um projeto em React que utiliza a biblioteca TailwindCSS para estilização e consome dados da PokeAPI para exibir informações sobre Pokémons.
 
 ## Acesso ao site
 
@@ -33,7 +33,7 @@ Para instalar o projeto, siga os seguintes passos:
 
 Ao acessar o projeto, você verá uma lista de Pokémons. Clique em um deles para exibir mais informações sobre, como habilidades, características, stats e evoluções.
 
-Você também pode pesquisar um Pokémon específico utilizando a barra de pesquisa. Basta digitar o nome ou número do Pokémon desejado e clicar em "Pesquisar".
+Você também pode pesquisar um Pokémon específico utilizando a barra de pesquisa digitando o nome ou filtrar pelos tipos.
 
 ## Tecnologias utilizadas
 
@@ -41,6 +41,9 @@ Você também pode pesquisar um Pokémon específico utilizando a barra de pesqu
   - TailwindCSS <img src="https://img.icons8.com/color/30/000000/tailwindcss.png"/>
   - PokeAPI <img src="https://img.icons8.com/color/30/000000/pokeball.png"/>
 
+## Créditos
+Imagem de fundo da página 404 por:
+https://www.deviantart.com/willdinomaster55/art/Field-Background-5-910270961
 
 ## Licença
 
