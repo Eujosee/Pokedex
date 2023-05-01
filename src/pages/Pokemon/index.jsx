@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Header from "../../components/Header";
 import api from "../../services/api";
-import { AiOutlineLoading3Quarters, AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineLoading3Quarters, AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import EvolutionChain from "../../components/EvolutionChain";
 import { FaArrowUp } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
@@ -20,15 +20,18 @@ export default function Pokemon() {
     stats: [],
     tipos: [],
     peso: "",
-    texto: "",
   });
+  const [battleData, setBattleData] = useState({
+    fraquezas: [],
+    efetivo: [],
+  })
+  const [flavorText, setFlavorText] = useState("")
   var color = "";
 
   async function getPokemon() {
     try {
       const response = await api.get(`/pokemon/${id}`);
       let responseurl = response.data.species.url.split("species/")[1]
-      console.log(responseurl)
       const secResponse = await api.get(`/pokemon-species/${responseurl}`);
       setUrl(secResponse.data.evolution_chain.url.split("v2")[1]);
 
@@ -41,18 +44,37 @@ export default function Pokemon() {
         tipos: response.data.types,
         peso: response.data.weight,
       });
-      if (response.data.flavor_text_entries){
-        setPokeData({texto: secResponse.data.flavor_text_entries[0].flavor_text})
+
+      //para evitar erros, verificamos se tem algo no array de flavor text
+      if (secResponse.data.flavor_text_entries.length > 0){
+        //essa função serve para pegar sempre o flavor em inglês
+        const {flavor_text} = secResponse.data.flavor_text_entries.find((item) => 
+          item.language.name === 'en'
+        )
+        setFlavorText(flavor_text)
       }
+    
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
   }
+  
+  async function getBattleData(){
+    try {
+      const response = await api.get(`/type/${pokedata.tipos[0].type.name}`)
+      setBattleData({
+        fraquezas: response.data.damage_relations.double_damage_from,
+        efetivo: response.data.damage_relations.double_damage_to,
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-  console.log(pokedata)
   useEffect(() => {
     getPokemon();
+    pokedata.tipos[0] && getBattleData()
     window.scroll({
       top: 0,
       behavior: "smooth",
@@ -175,7 +197,7 @@ export default function Pokemon() {
                       })}
                     </div>
                   </div>
-                  <div className="flex flex-col max-w-sm lg:mx-10 mr-20">
+                  <div className="flex flex-col max-w-sm lg:mx-10">
                     <div className="flex flex-wrap gap-5 items-center ">
                       <h1 className="text-white capitalize text-5xl md:text-6xl font-bold">
                         {pokedata.nome}
@@ -185,14 +207,17 @@ export default function Pokemon() {
                         aria-label="Adicionar aos favoritos"
                         className="flex group items-center justify-center bg-red-600 hover:bg-white p-3 rounded-full"
                       >
+                        {localStorage.getItem(pokedata.nome) == null ?
                         <AiOutlineHeart
                           className="text-white group-hover:text-red-600"
                           size={30}
-                        />
+                        /> : <AiFillHeart className="text-white group-hover:text-red-600"
+                        size={30}/>
+                      }
                       </button>
                     </div>
                     <p className="text-justify text-lg text-white font-medium">
-                      {pokedata.texto}
+                      {flavorText ? flavorText : ""}
                     </p>
                     <div className="mt-6">
                       <p className="text-xl text-white font-medium">
@@ -242,6 +267,58 @@ export default function Pokemon() {
                           </div>
                         );
                       })}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-10">
+                  <h1 className="w-full text-center text-white font-bold text-3xl">Batalha</h1>
+                  <div>
+                  <h2 className="text-white font-semibold">Fraquezas</h2>
+                  <div className="flex flex-row gap-3 flex-wrap">
+                  {battleData.fraquezas.map((item, index) =>{
+                        return (
+                          <div
+                            key={index}
+                            className={`flex flex-row justify-start items-center gap-x-2 ${
+                              colors[item.name]
+                            } rounded-md p-2 shadow-sm`}
+                          >
+                            <img
+                              className="h-6 w-6"
+                              src={`/types/${item.name}.svg`}
+                              alt={`${item.name} icon`}
+                            />
+                            <p className="text-white font-bold capitalize">
+                              {item.name}
+                            </p>
+                          </div>
+                        );
+                  })}
+                  </div>
+                  </div>
+                  <div className="mt-5">
+                  <h2 className="text-white font-semibold">Efetivo contra</h2>
+                    <div className="flex flex-row gap-3 flex-wrap">
+                      {battleData.efetivo.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className={`flex flex-row justify-start items-center gap-x-2 ${
+                                colors[item.name]
+                              } rounded-md p-2 shadow-sm`}
+                            >
+                              <img
+                                className="h-6 w-6"
+                                src={`/types/${item.name}.svg`}
+                                alt={`${item.name} icon`}
+                              />
+                              <p className="text-white font-bold capitalize">
+                                {item.name}
+                              </p>
+                            </div>
+                          );
+                      })}
+
                     </div>
                   </div>
                 </div>

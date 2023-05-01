@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Card from "../../components/Card";
+import Pagination from "../../components/Pagination"
 import "react-toastify/dist/ReactToastify.css";
 import api from "../../services/api";
 import { Link } from "react-router-dom";
@@ -17,6 +18,7 @@ export default function Favoritos() {
     useEffect(() => {
         getNames()
         getPokemon()
+        setTotal(names.length)
     },[loading])
 
     function getNames() {
@@ -26,19 +28,18 @@ export default function Favoritos() {
             nomes.push(key)
         }
         setNames(nomes)
-        console.log(names.length)
-        setTotal(names.length)
         setLoading(false)
     }
+
 
     function getPokemon(){
         if (loading) return
         if (names.length <= 0) return
         if (pokemons.length > 0 ) return
+
         try {
             names.map(async (nome) => {
                 const response = await api.get(`/pokemon/${nome}`)
-                console.log(response)
                 setPokemons(pokemons => [...pokemons, response.data])
             })
         } catch (error) {

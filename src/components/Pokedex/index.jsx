@@ -1,38 +1,53 @@
 import Card from '../../components/Card'
+import Pagination from '../../components/Pagination'
+import Select from '../Select'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+
 import api from '../../services/api'
+
 import { BiSearchAlt } from "react-icons/bi"
 import { FaArrowUp } from "react-icons/fa"
-import Pagination from '../../components/Pagination'
-import { Link } from 'react-router-dom'
 
 export default function Pokedex() {
   const [pokemons, setPokemons] = useState([])
   const [pokemonsFiltrados, setPokemonsFiltrados] = useState([])
   const [totalPokemon] = useState(6)
+  const [filtro, setFiltro] = useState("")
   const [search, setSearch] = useState("")
   const [offset, setOffset] = useState(0)
   const [total, setTotal ] = useState(0)
 
   useEffect(() => {
-    if (pokemons.length > 0) return
     async function getPokemon() {
-          try {
-              const { data: {count} } = await api.get("/pokemon")
-              const response  = await api.get(`/pokemon?limit=10000&offset=0`)
-              setPokemons(response.data.results)
-              setTotal(count)
-            } catch (error) {
-              console.log(error)
-          }
+      if(filtro == ""){
+        try {
+            const { data: {count} } = await api.get("/pokemon")
+            const response  = await api.get(`/pokemon?limit=10000&offset=0`)
+            setPokemons(response.data.results)
+            setTotal(count)
+          } catch (error) {
+            console.log(error)
+        }
+      }else{
+        try {
+          const response = await api.get(`/type/${filtro}`)
+          setPokemons(response.data.pokemon)
+          setTotal(response.data.pokemon.length)
+        } catch (error) {
+          console.log(error)
+        }
+      }
       }
     getPokemon()
-  }, [])
-
+  }, [filtro])
 
   useEffect(() => {
     const lowerSearch = search.toString().toLowerCase();
-    setPokemonsFiltrados(pokemons.filter((item) => item.name.toLowerCase().startsWith(lowerSearch)));
+    setPokemonsFiltrados(pokemons.filter((item) => {
+      const pokemonName = filtro == "" ? item && item.name : item && item.pokemon && item.pokemon.name;
+      return pokemonName.toLowerCase().startsWith(lowerSearch)
+    }));
     setOffset(0)
   }, [search, pokemons]);
 
@@ -60,23 +75,28 @@ export default function Pokedex() {
               />
               <BiSearchAlt size={25} className='absolute top-2 right-3 text-gray-400'/>
             </div>
-            <Link to="/favoritos" className='px-10 mt-4 md:ml-4 md:mt-0 bg-gray-900 text-white rounded-md p-2'>
-              <span className='font-semibold'>Favoritos</span>
-            </Link>
+            <div className='flex flex-row md:flex-row items-start justify-between flex-wrap gap-y-4 md:items-center mt-4 md:mt-0 md:justify-start w-full'>
+              <Link to="/favoritos" className='px-10  md:mx-4 md:mt-0 bg-gray-900 text-white rounded-md p-2'>
+                <span className='font-semibold'>Favoritos</span>
+              </Link>
+              <Select setFiltro={setFiltro}/>
+            </div>
         </div>
         <div className='py-10 md:px-10 flex flex-col justify-center items-center gap-10 md:grid md:grid-cols-2 min-[1250px]:grid min-[1250px]:grid-cols-3'>
           {/* aqui caso a variavel search esteja vazia serão exibidos todos os pokemons, caso contrario 
           sera exibido de acordo com o filtro */}
           {pokemonsFiltrados.length <= 0 && !search ? pokemons.map((item, index) => {
             if (index >= offset && index < offset + 6) {
-              return(
-                 <Card key={item.name} name={item.name}/>
+            const pokemonName = filtro == "" ? item && item.name : item && item.pokemon && item.pokemon.name
+            return(
+                 <Card key={pokemonName} name={pokemonName}/>
               )
             }
           }) : pokemonsFiltrados.length > 0 ? pokemonsFiltrados.map((item, index) => {
             if (index >= offset && index < offset + 6) {
+              const pokemonName = filtro == "" ? item && item.name : item && item.pokemon && item.pokemon.name
               return(
-                <Card key={item.name} name={item.name}/>
+                <Card key={pokemonName} name={pokemonName}/>
               )
             }
           }) : 

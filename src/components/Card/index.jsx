@@ -34,7 +34,8 @@ export default function Card({name}){
     }
 
     useEffect(() => {
-        async function getPokemonData() {
+        if (name == null) return
+         async function getPokemonData() {
             const response = await api.get(`/pokemon/${name}`)
             setPokeData({
                 id: response.data.id,
@@ -73,10 +74,9 @@ export default function Card({name}){
                 <p className="text-white"> Carregando...</p>
             </div>
             </div>
-        </div>
-         
+        </div>       
         : 
-        <Link to={"/pokemon/" + pokedata.id} className="">
+        <Link to={"/pokemon/" + pokedata.id}>
             <div className="corte sombra px-8 pb-6 flex flex-col items-center bg-[#DEDEDE] w-[90vw] min-h-full h-fit md:w-80 lg:w-96 rounded-2xl gap-y-2 
             transition ease-in-out hover:-translate-y-1 hover:scale-105 duration-300 hover:cursor-pointer
             ">

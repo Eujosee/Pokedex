@@ -11,7 +11,7 @@ const MAX_LEFT = (MAX_ITEMS - 1) / 2; //o máximo de botões na esquerda, o meno
 
 //limit é o numero máximo por página, total o total de items
 //offset é pra saber onde está na páginação, serve para pular os itens das paginas anteriores
-const Pagination = ({ limit, total, offset, setOffset }) => {
+export default function Pagination ({ limit, total, offset, setOffset }){
   const current = offset ? offset / limit + 1 : 1; //página atual
   const pages = Math.ceil(total / limit); //quantidade total de paginas. A divisão não pode ser quebrada, por isso o math.ceil
   const first = Math.max(current - MAX_LEFT, 1); //primeira página. Aqui o math.max serve para não haver botões com numeros negativos
@@ -84,5 +84,3 @@ const Pagination = ({ limit, total, offset, setOffset }) => {
     </ul>
   );
 };
-
-export default Pagination;
