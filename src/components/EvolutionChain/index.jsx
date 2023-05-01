@@ -37,7 +37,8 @@ export default function EvolutionChain({ url }) {
     async function getEvolutionData() {
       if (loading) return;
       if (pokemons.length > 0) return
-        const promises = names.map(async (item) => {
+      const promises = names.map(async (item) => {
+          console.log(item)
           try {
             const response = await api.get(`/pokemon/${item.name}`)
             return response.data 
@@ -71,18 +72,20 @@ export default function EvolutionChain({ url }) {
             {pokemons.length <= 0 && names.length <= 0 &&  (
               <p className="text-white w-full text-center mt-10 font-bold text-3xl">Este pokemon não evolui!</p>
             )}
-            {pokemons.map((item) =>{
-              return(
-                <Link className="p-8 px-10 transition ease-in-out  delay-150 hover:-translate-y-1 hover:scale-110 duration-300" key={item.id} to={`/pokemon/${item.id}`}>
-                <div className="flex flex-col items-center justify-center">
-                  <img className="w-48 h-48" src={item.sprites.other['official-artwork'].front_default} alt={item.name}/>
-                  <div className="flex flex-row items-center justify-center w-full gap-x-4">
-                    <p className="text-white font-bold text-xl">#{item.id}</p>
-                    <h1 className="capitalize text-white font-bold text-3xl">{item.name}</h1>
+            {pokemons.map((item)  => {
+              if (item){
+                return(
+                  <Link className="p-8 px-10 transition ease-in-out  delay-150 hover:-translate-y-1 hover:scale-110 duration-300" key={item.id} to={`/pokemon/${item.id}`}>
+                  <div className="flex flex-col items-center justify-center">
+                    <img className="w-48 h-48" src={item.sprites.other['official-artwork'].front_default} alt={item.name}/>
+                    <div className="flex flex-row items-center justify-center w-full gap-x-4">
+                      <p className="text-white font-bold text-xl">#{item.id}</p>
+                      <h1 className="capitalize text-white font-bold text-3xl">{item.name}</h1>
+                    </div>
                   </div>
-                </div>
-                </Link>
-              )
+                  </Link>
+                ) 
+              }
             })}
             </>
           )}

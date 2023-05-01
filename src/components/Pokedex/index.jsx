@@ -46,7 +46,7 @@ export default function Pokedex() {
     const lowerSearch = search.toString().toLowerCase();
     setPokemonsFiltrados(pokemons.filter((item) => {
       const pokemonName = filtro == "" ? item && item.name : item && item.pokemon && item.pokemon.name;
-      return pokemonName.toLowerCase().startsWith(lowerSearch)
+      return pokemonName.toLowerCase().includes(lowerSearch)
     }));
     setOffset(0)
   }, [search, pokemons]);
