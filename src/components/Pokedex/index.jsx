@@ -76,7 +76,7 @@ export default function Pokedex() {
               <BiSearchAlt size={25} className='absolute top-2 right-3 text-gray-400'/>
             </div>
             <div className='flex flex-row md:flex-row items-start justify-between flex-wrap gap-y-4 md:items-center mt-4 md:mt-0 md:justify-start w-full'>
-              <Link to="/favoritos" className='px-10  md:mx-4 md:mt-0 bg-gray-900 text-white rounded-md p-2'>
+              <Link to="/favoritos" className='px-10  md:mx-4 md:mt-0 bg-gray-900 text-white rounded-md p-2 hover:bg-white hover:text-gray-900'>
                 <span className='font-semibold'>Favoritos</span>
               </Link>
               <Select setFiltro={setFiltro}/>

@@ -54,7 +54,7 @@ export default function Favoritos() {
                 <div className="flex mt-4 ml-4 justify-start items-center gap-5">
             <Link
                 to="/"
-                className="text-white font-semibold bg-gray-900 p-2 px-10 rounded-md"
+                className="text-white font-semibold bg-gray-900 p-2 px-10 rounded-md hover:bg-white hover:text-gray-900"
             >
                 Voltar
             </Link>
