@@ -1,13 +1,15 @@
-# PokeReact <img src="https://img.icons8.com/color/30/000000/pokeball.png"/>
+# PokeReact
 
-Pokédex é um projeto em React que utiliza a biblioteca TailwindCSS para estilização e consome dados da PokeAPI para exibir informações sobre Pokémons.
+<img src="./public/telainicial.png"/>
 
-## Acesso ao site
+Essa Pokédex é um projeto em React que utiliza a biblioteca TailwindCSS para estilização e consome dados da PokeAPI para exibir informações sobre os Pokémons.
 
-Você pode acessar o projeto hospedado no Netlify através deste link: 
+## 🔗 Acesso ao Site
+
+Você pode acessar o projeto hospedado no Netlify através deste link:
 https://pokedex-jose.netlify.app/
 
-## Instalação
+## 🚀 Instalação
 
 Para instalar o projeto, siga os seguintes passos:
 
@@ -27,24 +29,44 @@ Para instalar o projeto, siga os seguintes passos:
    ```
    npm run dev
    ```
-5. Acesse o projeto em `http://localhost:5173`
+5. Acesse o projeto no link informado
 
-## Utilização
+## 💡 Utilização
 
-Ao acessar o projeto, você verá uma lista de Pokémons. Clique em um deles para exibir mais informações sobre, como habilidades, características, stats e evoluções.
+Ao acessar o projeto, você verá uma lista de Pokémons. Clique em um deles para exibir mais informações, como habilidades, características, estatísticas e evoluções.
 
-Você também pode pesquisar um Pokémon específico utilizando a barra de pesquisa digitando o nome ou filtrar pelos tipos.
+Você também pode pesquisar um Pokémon específico utilizando a barra de pesquisa, digitando o nome, ou filtrar por tipo.
 
-## Tecnologias utilizadas
+## 🛠️ Tecnologias Utilizadas
 
-  - React <img src="https://img.icons8.com/color/30/000000/react-native.png"/>
-  - TailwindCSS <img src="https://img.icons8.com/color/30/000000/tailwindcss.png"/>
-  - PokeAPI <img src="https://img.icons8.com/color/30/000000/pokeball.png"/>
+- [React](https://react.dev/learn)
+- [TailwindCSS](https://tailwindcss.com/docs/installation)
+- [PokeAPI](https://pokeapi.co/docs/v2)
+- [Axios](https://axios-http.com/ptbr/docs/intro)
+- [React Router DOM](https://reactrouter.com/en/main)
+- [React Icons](https://react-icons.github.io/react-icons/)
+- [Toastify](https://fkhadra.github.io/react-toastify/introduction)
 
-## Créditos
+## 📷 Capturas de Tela
+
+Aqui estão algumas capturas de tela do projeto:
+
+- Tela inicial
+<img src="./public/telainicial.png"/>
+
+- Detalhes do pokemon
+<img src="./public/detalhes.png"/>
+
+## ⚠️ Avisos
+
+- O flavor text dos pokémons está em inglês, pois a API ainda não disponibiliza a versão em português.
+- Alguns pokémons, por serem recentes, não possuem imagens disponíveis 
+
+## 🙏 Créditos
+
 Imagem de fundo da página 404 por:
 https://www.deviantart.com/willdinomaster55/art/Field-Background-5-910270961
 
-## Licença
+## 📝 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto está sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
